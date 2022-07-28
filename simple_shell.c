@@ -35,9 +35,9 @@ int main(void)
 
 			}
 			else
-				free(line);
 				wait(&status);
 
+			free(line);
 			write(1, "#Cisfun$ ", 9);
 
 		}
