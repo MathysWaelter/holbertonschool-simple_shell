@@ -20,8 +20,6 @@ int main(void)
 	ssize_t nread;
 
 
-		write(1, "#Cisfun$ ", 9);
-
 		while ((nread = getline(&line, &len, stdin)) != -1)
 		{
 			child = fork();
@@ -38,7 +36,6 @@ int main(void)
 				wait(&status);
 
 			free(line);
-			write(1, "#Cisfun$ ", 9);
 
 		}
 	return (0);
