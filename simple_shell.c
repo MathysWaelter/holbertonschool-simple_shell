@@ -26,17 +26,18 @@ int main(void)
 			if (child == 0)
 			{
 				newarg[0] = strtok(line, "\n");
+				newarg[0] = strtok(line, " ");
+				if (newarg[0] == NULL)
+					continue;
 				if (execve(newarg[0], newarg, newenv) == -1)
 				{
 					perror("./shell");
 				}
-
 			}
 			else
 				wait(&status);
 
 			free(line);
-
 		}
 	return (0);
 }
