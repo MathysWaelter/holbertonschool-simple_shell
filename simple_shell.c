@@ -27,29 +27,18 @@ int main(void)
 			{
 				newarg[0] = strtok(line, "\n");
 				newarg[0] = strtok(line, " ");
-				printf("%s", newarg[0]);
-				if (strlen(newarg[0]) == 0)
-				{
-					free(line);
-					line = NULL;
-					free(newarg[0]);
-					newarg[0] = NULL;
-					continue;
-				}
+				if (newarg[0] == NULL)
+					return (0);
 				if (execve(newarg[0], newarg, newenv) == -1)
 				{
 					perror("./shell");
 				}
-				free(newarg[0]);
-				free(line);
-				line = NULL;
-				newarg[0] = NULL;
+
 			}
 			else
 			{
 				wait(&status);
 			}
-
 		}
 	return (0);
 }
