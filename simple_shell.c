@@ -15,25 +15,27 @@ int main(void)
 	ssize_t nread;
 
 
-		while ((nread = getline(&line, &len, stdin)) != -1)
+	while ((nread = getline(&line, &len, stdin)) != -1)
+	{
+		child = fork();
+		if (child == 0)
 		{
-			child = fork();
-			if (child == 0)
+			newarg[0] = strtok(line, "\n");
+			newarg[0] = strtok(line, " ");
+			if (newarg[0] == NULL)
+				return (0);
+			if (execve(newarg[0], newarg, environ) == -1)
 			{
-				newarg[0] = strtok(line, "\n");
-				newarg[0] = strtok(line, " ");
-				if (newarg[0] == NULL)
-					return (0);
-				if (execve(newarg[0], newarg, environ) == -1)
-				{
-					perror("./shell");
-				}
+				perror("./shell");
+			}
 
-			}
-			else
-			{
-				wait(&status);
-			}
 		}
+		else
+		{
+			wait(&status);
+		}
+	}
+	free(line);
+	line = NULL;
 	return (0);
 }
