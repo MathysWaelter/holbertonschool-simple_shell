@@ -1,20 +1,31 @@
 #include "simple_shell.h"
 
 /**
- * free_s - free strings
- * @args: array of strings
- * @line: buffer containing input line
+ * free_arofstr - free strings
+ * @arg: array of strings
  */
 
-void free_s(char **args, char *line)
+void free_arofstr(char **arg)
 {
-	int i = 0;
+	int i;
 
-	free(line);
-	line = NULL;
-	for (i = 0; args[i]; i++)
-		free(args[i]);
-	free(args);
+	for (i = 0; arg[i]; i++)
+	{
+		free(arg[i]);
+		arg[i] = NULL;
+	}
+	free(arg);
+	arg = NULL;
+}
+/**
+ * free_str - free strings
+ * @lin: buffer containing input line
+ */
+
+void free_str(char *lin)
+{
+	free(lin);
+	lin = NULL;
 }
 
 /**
@@ -46,7 +57,8 @@ int main(void)
 				i++;
 			if (args[0] == NULL)
 			{
-				free_s(args, line);
+				free_arofstr(args);
+				free_str(line);
 				exit(98);
 			}
 			if (execve(args[0], args, environ) == -1)
@@ -55,6 +67,7 @@ int main(void)
 		else
 			wait(&status);
 	}
-	free_s(args, line);
+	free_arofstr(args);
+	free_str(line);
 	return (0);
 }
