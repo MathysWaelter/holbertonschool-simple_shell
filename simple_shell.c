@@ -20,7 +20,8 @@ int main(void)
 		if (child == 0)
 		{
 			token[i] = strtok(line, delim);
-			newarg[0] = strdup(token[i]);
+			if (token[i])
+				newarg[0] = strdup(token[i]);
 			while ((token[i] = strtok(NULL, delim)) != NULL)
 			{
 				strcat(newarg[0], " ");
@@ -30,6 +31,7 @@ int main(void)
 			if (newarg[0] == NULL)
 			{
 				free(line);
+				line = NULL;
 				return (0);
 			}
 			if (execve(newarg[0], newarg, environ) == -1)
@@ -42,5 +44,6 @@ int main(void)
 			wait(&status);
 	}
 	free(line);
+	line = NULL;
 	return (0);
 }
