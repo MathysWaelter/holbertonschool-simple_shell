@@ -26,8 +26,8 @@ void free_str(char *lin)
 {
 	free(lin);
 	lin = NULL;
-}
 
+}
 /**
  * main - creates a shell
  *
