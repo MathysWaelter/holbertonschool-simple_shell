@@ -44,6 +44,7 @@ int main(void)
 			wait(&status);
 	}
 	free(line);
+	free(newarg[0]);
 	line = NULL;
 	return (0);
 }
