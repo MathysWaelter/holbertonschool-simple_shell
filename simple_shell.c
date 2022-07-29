@@ -2,19 +2,19 @@
 
 /**
  * free_s - free strings
- * @args: array of strings
- * @line: buffer containing input line
+ * @arg: array of strings
+ * @lin: buffer containing input line
  */
 
-void free_s(char **args, char *line)
+void free_s(char **arg, char *lin)
 {
-	int i = 0;
+	int i;
 
-	free(line);
-	line = NULL;
-	for (i = 0; args[i]; i++)
-		free(args[i]);
-	free(args);
+	free(lin);
+	lin = NULL;
+	for (i = 0; arg[i]; i++)
+		free(arg[i]);
+	free(arg);
 }
 
 /**
