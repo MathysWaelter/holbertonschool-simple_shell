@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "main.h"
 /**
  * main - creates a shell
  *
@@ -15,7 +10,7 @@ int main(void)
 	size_t len = 0;
 	int status;
 	pid_t child = 0;
-	char *newarg[] = {NULL, NULL}, *newenv[] = {NULL};
+	char *newarg[] = {NULL, NULL};
 	char *line = NULL;
 	ssize_t nread;
 
@@ -29,7 +24,7 @@ int main(void)
 				newarg[0] = strtok(line, " ");
 				if (newarg[0] == NULL)
 					return (0);
-				if (execve(newarg[0], newarg, newenv) == -1)
+				if (execve(newarg[0], newarg, environ) == -1)
 				{
 					perror("./shell");
 				}
