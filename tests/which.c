@@ -1,10 +1,5 @@
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#include "simple_shell.h"
 
 int main(int ac, char **av)
 {
@@ -16,7 +11,7 @@ int main(int ac, char **av)
 	const char *path = getenv("PATH");
 	char *copypath = malloc(sizeof(char) * strlen(path));
 
-	i = 1;
+	i = 0;
 
 	while (av[i])
 	{
@@ -46,7 +41,7 @@ int main(int ac, char **av)
 				free(copypath);
 				copypath = NULL;
 				
-				break;
+				return (tmp);
 			}
 			path = NULL;
 			free(copypath);
