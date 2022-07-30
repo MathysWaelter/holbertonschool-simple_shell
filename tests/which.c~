@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int ac, char **av)
+{
+	unsigned int i;
+	struct stat st;
+	char *token = NULL;
+	char *path;
+	char *slash = "/";
+	char *tmp = "";
+	char *str = NULL;
+
+	path = getenv("PATH");
+
+
+	i = 1;
+
+
+		while (1)
+		{
+			token  = strtok(path, ":");
+			if (token == NULL)
+				break;
+			printf("%s\n", token);
+	        
+			tmp = strcat(tmp, token);
+			tmp = strcat(tmp, "/ls");
+			if (stat(tmp, &st) == 0)
+			{
+				printf("%s\n", tmp);
+				exit(0);
+			
+				
+			}
+			path = NULL;
+
+		}
+       
+
+	return (0);
+}
