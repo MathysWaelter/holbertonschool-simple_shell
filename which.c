@@ -20,34 +20,39 @@ char  **list_dir_var_env(char *var_env)
 		strcpy(copydir[i], dir[i]);
 		copydir[i] = strcat(copydir[i], slash);
 	}
+	free(dir);
+	dir = NULL;
 	return (copydir);
 }
 
-int _which(char **args)
+int main(void)
 {
+	char *args[] = {"ls", "haha", "bin/ls", NULL};
 	char *path = getenv("PATH");
 	char **list = list_dir_var_env(path);
-	int len;
+	int lenlist, lenarg;
 
 	for (int i = 0; args[i]; i++)
 	{
+		lenarg = strlen(args[i]);
 		for (int j = 0; list[j]; j++)
 		{
-
+			lenlist = strlen(list[j]);
+			list[j] = realloc(list[j], lenlist + lenarg + 1);
 			list[j] = strcat(list[j], args[i]);
 			if (access(list[j], F_OK) == 0)
 			{
-				len = strlen(list[j]);
-				args[i] = malloc(sizeof(char) * (len + 1));
 				args[i] = list[j];
 				list[j] = NULL;
 				break;
 			}
+			puts(args[0]);
+			puts(args[i]);
 		}
 	}
 	if (access(args[0], F_OK) == -1)
 	{
-		printf("%s: 1: hbtn_cmd: not found\n", args[0]);
+		printf("%s not found...\n", args[0]);
 		return (-1);
 	}
 	return (0);
