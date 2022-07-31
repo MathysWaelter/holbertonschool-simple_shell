@@ -7,7 +7,7 @@
 int main(void)
 {
 	size_t len = 0;
-	int status, i = 0;
+	int status, i;
 	pid_t child = 0;
 	char **args;
 	ssize_t nread;
@@ -19,24 +19,26 @@ int main(void)
 
 	while ((nread = getline(&line, &len, stdin)) != -1)
 	{
-		child = fork();
-		if (child == 0)
+		i = 0;
+		args[0] = strtok(line, delim);
+		i++;
+		if (args[0])
 		{
-			args[0] = strtok(line, delim);
-			i++;
 			while ((args[i] = strtok(NULL, delim)) != NULL)
 				i++;
-			if (args[0] == NULL)
+			child = fork();
+			if (child == 0)
 			{
-				free(args);
-				free(line);
-				exit(98);
+				if (execve(args[0], args, environ) == -1)
+					perror("./shell");
 			}
-			if (execve(args[0], args, environ) == -1)
-				perror("./shell");
+			else
+				wait(&status);
 		}
-		else
-			wait(&status);
+		for (i = 0; args[i]; i++)
+		{
+			args[i] = NULL;
+		}
 	}
 	free(args);
 	free(line);
