@@ -1,59 +1,40 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "simple_shell.h"
 
-char  **list_dir_var_env(char *var_env)
+char **_which(char **args)
 {
-	char **dir = malloc(sizeof(char *) * 2);
-	char **copydir = malloc(sizeof(char *) * 2);
-	char *slash = "/";
+	char *pathenv = getenv("PATH");
+	char *copyenv;
+	char *cmdpath, *token;
+	int i, lenarg, lentok;
+	char *copyenvorNULL;
 
-	for (int i = 0; (dir[i] = strtok(var_env, ":")) != NULL; i++)
+	for (i = 0; args[i]; i++)
 	{
-		var_env = NULL;
-		dir = realloc(dir, sizeof(char *) * (2 + i));
-		copydir = realloc(copydir, sizeof(char *) * (2 + i));
-		copydir[i] = malloc(sizeof(char) * strlen(dir[i]) + 2);
-		strcpy(copydir[i], dir[i]);
-		copydir[i] = strcat(copydir[i], slash);
-	}
-	free(dir);
-	dir = NULL;
-	return (copydir);
-}
-
-int main(void)
-{
-	char *args[] = {"ls", "haha", "bin/ls", NULL};
-	char *path = getenv("PATH");
-	char **list = list_dir_var_env(path);
-	int lenlist, lenarg;
-
-	for (int i = 0; args[i]; i++)
-	{
+		copyenv = strdup(pathenv);
 		lenarg = strlen(args[i]);
-		for (int j = 0; list[j]; j++)
+		cmdpath = strdup(args[i]);
+		copyenvorNULL = copyenv;
+		while ((token = strtok(copyenvorNULL, ":")) != NULL)
 		{
-			lenlist = strlen(list[j]);
-			list[j] = realloc(list[j], lenlist + lenarg + 1);
-			list[j] = strcat(list[j], args[i]);
-			if (access(list[j], F_OK) == 0)
+			lentok = strlen(token);
+			if (access(cmdpath, F_OK) == 0)
 			{
-				args[i] = list[j];
-				list[j] = NULL;
+				args[i] = cmdpath;
+				printf("ARG = CMDPATH : %s\n", args[i]);
 				break;
 			}
-			puts(args[0]);
-			puts(args[i]);
+			free(cmdpath);
+			cmdpath = malloc(sizeof(char) * (lentok + lenarg + 2));
+			cmdpath = strcpy(cmdpath, token);
+			cmdpath = strcat(cmdpath, "/");
+			cmdpath = strcat(cmdpath, args[i]);
+			copyenvorNULL = NULL;
 		}
+		free(cmdpath);
+		free(copyenv);
 	}
-	if (access(args[0], F_OK) == -1)
-	{
-		printf("%s not found...\n", args[0]);
-		return (-1);
-	}
-	return (0);
+	if (access(args[0], F_OK) != 0)
+		return (NULL);
+	return (args);
+
 }

@@ -22,10 +22,11 @@ int main(void)
 		i = 0;
 		args[0] = strtok(line, delim);
 		i++;
+
 		if (args[0])
 		{
 			while ((args[i] = strtok(NULL, delim)) != NULL)
-				i++;
+			i++;
 			child = fork();
 			if (child == 0)
 			{

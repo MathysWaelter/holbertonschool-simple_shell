@@ -8,5 +8,5 @@
 #include <string.h>
 extern char **environ;
 char  **list_dir_var_env(char *var_env);
-int _which(char **args);
+char **_which(char **args);
 #endif
