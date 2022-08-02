@@ -1,5 +1,24 @@
 #include "simple_shell.h"
 /**
+ * fork_wait_execve - creates a child process, exec a command, then leave
+ *
+ * Return: nothing
+ */
+void fork_wait_execve(char ***p)
+{
+	int status;
+	pid_t child = 0;
+
+	child = fork();
+	if (child == 0)
+	{
+		if (execve((*p)[0], (*p), environ) == -1)
+			perror("./shell");
+	}
+	else
+		wait(&status);
+}
+/**
  * main - creates a shell
  *
  * Return: Always 0
@@ -7,49 +26,31 @@
 int main(void)
 {
 	size_t len = 0;
-	int status, i;
-	pid_t child = 0;
-	char **args, **cpyargs;
+	int i;
+	char **args = calloc(1000, sizeof(char *));
+	char **cpyargs = calloc(1000, sizeof(char *));
 	ssize_t nread;
-	char *delim = " \n", *line = NULL;
+	char *delim = " \n", *line = NULL, *linetoNULL;
 
-	args = calloc(50, sizeof(char *));
-	if (!(args))
-		exit(98);
-	cpyargs = calloc(50, sizeof(char *));
-	if (!(cpyargs))
+	if (!(cpyargs) | !(args))
 		exit(98);
 	while ((nread = getline(&line, &len, stdin)) != -1)
 	{
-		i = 0;
-		args[0] = strtok(line, delim);
-		i++;
-		if (args[0])
+		linetoNULL = line;
+		for (i = 0; (args[i] = strtok(linetoNULL, delim)) != NULL; i++)
 		{
-			while ((args[i] = strtok(NULL, delim)) != NULL)
-				i++;
-			for (i = 0; args[i]; i++)
-				cpyargs[i] = strdup(args[i]);
-			if (_which(&cpyargs) == -1)
-			{
-				free(cpyargs[0]);
-				continue;
-			}
-			child = fork();
-			if (child == 0)
-			{
-				if (execve(cpyargs[0], cpyargs, environ) == -1)
-					perror("./shell");
-			}
-			else
-				wait(&status);
+			linetoNULL = NULL;
+			cpyargs[i] = strdup(args[i]);
 		}
+		if (_which(&cpyargs) == 0)
+			fork_wait_execve(&cpyargs);
+		else
+			continue;
 		for (i = 0; cpyargs[i]; i++)
 		{
 			free(cpyargs[i]);
 			cpyargs[i] = NULL;
 		}
-
 	}
 	free(cpyargs);
 	free(args);
