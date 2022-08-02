@@ -1,0 +1,43 @@
+#include "simple_shell.h"
+
+char **_which(char **args)
+{
+	char *pathenv = getenv("PATH");
+	char *copyenv;
+	char *cmdpath, *token;
+	int i, larg, lt;
+	char *copyenvorNULL;
+
+	for (i = 0; args[i]; i++)
+	{
+		if (access(args[i], F_OK) == 0)
+			continue;
+		copyenv = strdup(pathenv);
+		larg = strlen(args[i]);
+		cmdpath = strdup(args[i]);
+		copyenvorNULL = copyenv;
+		while ((token = strtok(copyenvorNULL, ":")) != NULL)
+		{
+			copyenvorNULL = NULL;
+			lt = strlen(token);
+			free(cmdpath);
+			cmdpath = calloc((lt + larg + 2), sizeof(char));
+			cmdpath = strcpy(cmdpath, token);
+			cmdpath = strcat(cmdpath, "/");
+			cmdpath = strcat(cmdpath, args[i]);
+			if (access(cmdpath, F_OK) == 0)
+			{
+				free(args[i]);
+				args[i] = strdup(cmdpath);
+				printf("ARG = CMDPATH : %s\n", args[i]);
+				break;
+			}
+		}
+		free(cmdpath);
+		free(copyenv);
+	}
+	if (access(args[0], F_OK) != 0)
+		return (NULL);
+	return (args);
+
+}
