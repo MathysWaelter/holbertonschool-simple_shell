@@ -8,5 +8,6 @@
 #include <string.h>
 extern char **environ;
 char  **list_dir_var_env(char *var_env);
-int _which(char ***args);
+int _which(char **args);
+void fork_wait_execve(char *arg, char **list_arg, char **envir);
 #endif

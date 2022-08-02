@@ -1,6 +1,6 @@
 #include "simple_shell.h"
 
-char **_which(char **args)
+int _which(char ***args)
 {
 	char *pathenv = getenv("PATH");
 	char *copyenv;
@@ -8,33 +8,35 @@ char **_which(char **args)
 	int i, lenarg, lentok;
 	char *copyenvorNULL;
 
-	for (i = 0; args[i]; i++)
+	for (i = 0; (*args)[i]; i++)
 	{
+		if (access((*args)[i], F_OK) == 0)
+			continue;
 		copyenv = strdup(pathenv);
-		lenarg = strlen(args[i]);
-		cmdpath = strdup(args[i]);
+		lenarg = strlen((*args)[i]);
+		cmdpath = strdup((*args)[i]);
 		copyenvorNULL = copyenv;
 		while ((token = strtok(copyenvorNULL, ":")) != NULL)
 		{
+			copyenvorNULL = NULL;
 			lentok = strlen(token);
-			if (access(cmdpath, F_OK) == 0)
-			{
-				args[i] = cmdpath;
-				printf("ARG = CMDPATH : %s\n", args[i]);
-				break;
-			}
 			free(cmdpath);
-			cmdpath = malloc(sizeof(char) * (lentok + lenarg + 2));
+			cmdpath = calloc((lentok + lenarg + 2), sizeof(char));
 			cmdpath = strcpy(cmdpath, token);
 			cmdpath = strcat(cmdpath, "/");
-			cmdpath = strcat(cmdpath, args[i]);
-			copyenvorNULL = NULL;
+			cmdpath = strcat(cmdpath, (*args)[i]);
+			if (access(cmdpath, F_OK) == 0)
+			{
+				free((*args)[i]);
+				(*args)[i] = strdup(cmdpath);
+				printf("ARG = CMDPATH : %s\n", (*args)[i]);
+				break;
+			}
 		}
 		free(cmdpath);
 		free(copyenv);
 	}
-	if (access(args[0], F_OK) != 0)
-		return (NULL);
-	return (args);
-
+	if (access((*args)[0], F_OK) != 0)
+		return (-1);
+	return (0);
 }

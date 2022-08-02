@@ -1,43 +1,30 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "simple_shell.h"
 
-int main(void)
+int _which(char **arg)
 {
-	char *args[] = {"echo", "haha", "echo", "/bin/ls", NULL};
-	char *pathenv = getenv("PATH");
-	char *copyenv;
+	char *path = getenv("PATH");
 	char *cmdpath, *token;
-	int i, lenarg, lentok;
-	char *copyenvorNULL;
+	int lenarg, lentok;
 
-	for (i = 0; args[i]; i++)
+	lenarg = strlen(*arg);
+	cmdpath = strdup(*arg);
+	while ((token = strtok(path, ":")) != NULL)
 	{
-		copyenv = strdup(pathenv);
-		lenarg = strlen(args[i]);
-		cmdpath = strdup(args[i]);
-		copyenvorNULL = copyenv;
-		while ((token = strtok(copyenvorNULL, ":")) != NULL)
+		lentok = strlen(token);
+		if (access(cmdpath, F_OK) == 0)
 		{
-			lentok = strlen(token);
-			if (access(cmdpath, F_OK) == 0)
-			{
-				args[i] = cmdpath;
-				printf("ARG = CMDPATH : %s\n", args[i]);
-				break;
-			}
-			free(cmdpath);
-			cmdpath = malloc(sizeof(char) * (lentok + lenarg + 2));
-			cmdpath = strcpy(cmdpath, token);
-			cmdpath = strcat(cmdpath, "/");
-			cmdpath = strcat(cmdpath, args[i]);
-			copyenvorNULL = NULL;
+
+			printf("INSIDE ACCESS ==> ARG = CMDPATH : %s\n", *arg);
+			return (0);
 		}
 		free(cmdpath);
-		free(copyenv);
+		cmdpath = malloc(sizeof(char) * (lentok + lenarg + 2));
+		cmdpath = strcpy(cmdpath, token);
+		cmdpath = strcat(cmdpath, "/");
+		cmdpath = strcat(cmdpath, *arg);
+		printf("%s\n", cmdpath);
+		path = NULL;
 	}
-		return (0);
+	free(cmdpath);
+	return (-1);
 }
