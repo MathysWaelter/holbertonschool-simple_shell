@@ -8,8 +8,6 @@ int _which(char ***args)
 	int i, lenarg, lentok;
 	char *copyenvorNULL;
 
-	if (pathenv == NULL)
-		return (-1);
 
 	for (i = 0; (*args)[i]; i++)
 	{
