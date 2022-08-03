@@ -41,7 +41,7 @@ int _which(char ***args)
 	{
 		write(STDERR_FILENO, "./hsh: 1: ", 11);
 		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
-		write(STDERR_FILENO, ": not found", 11);
+		write(STDERR_FILENO, ": not found\n", 12);
 		return (-1);
 	}
 	return (0);
