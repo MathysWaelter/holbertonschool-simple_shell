@@ -10,4 +10,5 @@ extern char **environ;
 int _which(char ***args);
 int fork_wait_execve(char ***p);
 void free_loop(char ***pp);
+void printenv(void);
 #endif

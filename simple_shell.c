@@ -23,10 +23,9 @@ int fork_wait_execve(char ***p)
 {
 	int status = 0;
 	pid_t child = 0;
-	int i;
 
 	child = fork();
-	if (child == 0 && strcmp((*p)[0], "exit") != 0)
+	if (child == 0)
 	{
 		if (execve((*p)[0], (*p), environ) == -1)
 		{
@@ -35,11 +34,6 @@ int fork_wait_execve(char ***p)
 	}
 	else
 	{
-		for (i = 0; (*p)[i]; i++)
-		{
-			if (strcmp((*p)[i], "exit") == 0)
-				return (2);
-		}
 		wait(&status);
 	}
 	return (0);
@@ -69,6 +63,12 @@ int main(void)
 			linetoNULL = NULL;
 			cpyargs[i] = strdup(args[i]);
 		}
+		if (strcmp(cpyargs[0], "env") == 0)
+		{
+			printenv();
+			free_loop(&cpyargs);
+			continue;
+		}
 		if (args[0] != NULL)
 		{
 			status = _which(&cpyargs);
@@ -82,7 +82,7 @@ int main(void)
 	free(cpyargs);
 	free(args);
 	free(line);
-	if (status != 0)
+	if ((status != 0) && (status != -1))
 		exit(status);
 	return (0);
 }

@@ -10,8 +10,6 @@ int _which(char ***args)
 
 	for (i = 0; (*args)[i]; i++)
 	{
-		if (strcmp((*args)[i], "exit") == 0)
-			return (0);
 		if (access((*args)[i], F_OK) == 0)
 			continue;
 		copyenv = strdup(pathenv);
