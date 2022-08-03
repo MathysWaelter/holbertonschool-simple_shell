@@ -19,19 +19,30 @@ void free_loop(char ***pp)
  *
  * Return: nothing
  */
-void fork_wait_execve(char ***p)
+int fork_wait_execve(char ***p)
 {
-	int status;
+	int status = 0;
 	pid_t child = 0;
+	int i;
 
 	child = fork();
-	if (child == 0)
+	if (child == 0 && strcmp((*p)[0], "exit") != 0)
 	{
 		if (execve((*p)[0], (*p), environ) == -1)
+		{
 			perror("./shell");
+		}
 	}
 	else
+	{
+		for (i = 0; (*p)[i]; i++)
+		{
+			if (strcmp((*p)[i], "exit") == 0)
+				return (2);
+		}
 		wait(&status);
+	}
+	return (0);
 }
 /**
  * main - creates a shell
@@ -58,16 +69,11 @@ int main(void)
 			linetoNULL = NULL;
 			cpyargs[i] = strdup(args[i]);
 		}
-		if (strcmp(cpyargs[0], "exit") == 0)
-		{
-			free_loop(&cpyargs);
-			break;
-		}
 		if (args[0] != NULL)
 		{
 			status = _which(&cpyargs);
 			if (status == 0)
-				fork_wait_execve(&cpyargs);
+				status = fork_wait_execve(&cpyargs);
 		}
 		free_loop(&cpyargs);
 		if (status != 0)

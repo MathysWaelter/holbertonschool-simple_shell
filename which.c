@@ -10,6 +10,8 @@ int _which(char ***args)
 
 	for (i = 0; (*args)[i]; i++)
 	{
+		if (strcmp((*args)[i], "exit") == 0)
+			return (0);
 		if (access((*args)[i], F_OK) == 0)
 			continue;
 		copyenv = strdup(pathenv);
@@ -35,7 +37,7 @@ int _which(char ***args)
 		free(cmdpath);
 		free(copyenv);
 	}
-	if ((access((*args)[0], F_OK) != 0))
+	if (access((*args)[0], F_OK) != 0)
 	{
 		write(STDERR_FILENO, "./hsh: 1: ", 10);
 		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
