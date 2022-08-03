@@ -8,7 +8,6 @@ int _which(char ***args)
 	int i, lenarg, lentok;
 	char *copyenvorNULL;
 
-
 	for (i = 0; (*args)[i]; i++)
 	{
 		if (access((*args)[i], F_OK) == 0)
@@ -31,7 +30,6 @@ int _which(char ***args)
 				free((*args)[i]);
 				(*args)[i] = strdup(cmdpath);
 				break;
-
 			}
 		}
 		free(cmdpath);

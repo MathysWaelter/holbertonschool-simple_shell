@@ -1,5 +1,20 @@
 #include "simple_shell.h"
 /**
+ * free_loop - free the strings of a pointer of strings
+ *
+ * Return: nothing
+ */
+void free_loop(char ***pp)
+{
+	int i;
+
+	for (i = 0; (*pp)[i]; i++)
+	{
+		free((*pp)[i]);
+		(*pp)[i] = NULL;
+	}
+}
+/**
  * fork_wait_execve - creates a child process, exec a command, then leave
  *
  * Return: nothing
@@ -31,7 +46,7 @@ int main(void)
 	char **cpyargs = calloc(1000, sizeof(char *));
 	ssize_t nread;
 	char *delim = " \n", *line = NULL, *linetoNULL;
-	int status;
+	int status = 0;
 
 	if (!(cpyargs) | !(args))
 		exit(98);
@@ -43,18 +58,19 @@ int main(void)
 			linetoNULL = NULL;
 			cpyargs[i] = strdup(args[i]);
 		}
+		if (strcmp(cpyargs[0], "exit") == 0)
+		{
+			free_loop(&cpyargs);
+			break;
+		}
 		if (args[0] != NULL)
 		{
 			status = _which(&cpyargs);
 			if (status == 0)
 				fork_wait_execve(&cpyargs);
 		}
-		for (i = 0; cpyargs[i]; i++)
-		{
-			free(cpyargs[i]);
-			cpyargs[i] = NULL;
-		}
-		if (status == 127)
+		free_loop(&cpyargs);
+		if (status != 0)
 			break;
 	}
 	free(cpyargs);

@@ -9,4 +9,5 @@
 extern char **environ;
 int _which(char ***args);
 void fork_wait_execve(char ***p);
+void free_loop(char ***pp);
 #endif
