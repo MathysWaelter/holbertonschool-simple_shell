@@ -7,6 +7,9 @@ int _which(char ***args)
 	char *cmdpath, *token;
 	int i, lenarg, lentok;
 	char *copyenvorNULL;
+	
+	if (pathenv == NULL)
+		return (-1);
 
 	for (i = 0; (*args)[i]; i++)
 	{
@@ -29,7 +32,6 @@ int _which(char ***args)
 			{
 				free((*args)[i]);
 				(*args)[i] = strdup(cmdpath);
-				printf("ARG = CMDPATH : %s\n", (*args)[i]);
 				break;
 			}
 		}
