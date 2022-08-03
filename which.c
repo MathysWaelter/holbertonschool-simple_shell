@@ -37,7 +37,7 @@ int _which(char ***args)
 		free(cmdpath);
 		free(copyenv);
 	}
-	if (access((*args)[0], F_OK) != 0 | pathenv == NULL;)
+	if (access((*args)[0], F_OK) != 0 | pathenv == NULL)
 	{
 		write(STDERR_FILENO, "./hsh: 1: ", 10);
 		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
