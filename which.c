@@ -33,12 +33,19 @@ int _which(char ***args)
 				free((*args)[i]);
 				(*args)[i] = strdup(cmdpath);
 				break;
+
 			}
 		}
 		free(cmdpath);
 		free(copyenv);
 	}
 	if (access((*args)[0], F_OK) != 0)
+	{
+		write(STDERR_FILENO, "./hsh: 1: ", 11);
+		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
+		write(STDERR_FILENO, ": not found ", 11);
+		write(STDERR_FILENO, "\n", 1);
 		return (-1);
+	}
 	return (0);
 }
