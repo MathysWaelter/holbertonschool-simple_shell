@@ -48,10 +48,10 @@ int main(void)
 				fork_wait_execve(&cpyargs);
 		}
 		for (i = 0; cpyargs[i]; i++)
-		{				
+		{
 			free(cpyargs[i]);
 			cpyargs[i] = NULL;
-		}	
+		}
 	}
 	free(cpyargs);
 	free(args);

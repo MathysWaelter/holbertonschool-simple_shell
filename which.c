@@ -7,7 +7,7 @@ int _which(char ***args)
 	char *cmdpath, *token;
 	int i, lenarg, lentok;
 	char *copyenvorNULL;
-	
+
 	if (pathenv == NULL)
 		return (-1);
 
@@ -43,8 +43,7 @@ int _which(char ***args)
 	{
 		write(STDERR_FILENO, "./hsh: 1: ", 11);
 		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
-		write(STDERR_FILENO, ": not found ", 11);
-		write(STDERR_FILENO, "\n", 1);
+		write(STDERR_FILENO, ": not found", 11);
 		return (-1);
 	}
 	return (0);
