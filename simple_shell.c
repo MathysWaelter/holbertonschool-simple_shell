@@ -31,6 +31,7 @@ int main(void)
 	char **cpyargs = calloc(1000, sizeof(char *));
 	ssize_t nread;
 	char *delim = " \n", *line = NULL, *linetoNULL;
+	int status;
 
 	if (!(cpyargs) | !(args))
 		exit(98);
@@ -44,7 +45,8 @@ int main(void)
 		}
 		if (args[0] != NULL)
 		{
-			if (_which(&cpyargs) == 0)
+			status = _which(&cpyargs);
+			if (status == 0)
 				fork_wait_execve(&cpyargs);
 		}
 		for (i = 0; cpyargs[i]; i++)
@@ -52,9 +54,13 @@ int main(void)
 			free(cpyargs[i]);
 			cpyargs[i] = NULL;
 		}
+		if (status == 127)
+			break;
 	}
 	free(cpyargs);
 	free(args);
 	free(line);
+	if (status == 127)
+		exit(127);
 	return (0);
 }
