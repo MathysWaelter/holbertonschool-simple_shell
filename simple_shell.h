@@ -7,4 +7,6 @@
 #include <sys/wait.h>
 #include <string.h>
 extern char **environ;
+int _which(char ***args);
+void fork_wait_execve(char ***p);
 #endif
