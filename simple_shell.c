@@ -76,7 +76,7 @@ int main(void)
 	free(cpyargs);
 	free(args);
 	free(line);
-	if (status == 127)
+	if (status != 0)
 		exit(status);
 	return (0);
 }
