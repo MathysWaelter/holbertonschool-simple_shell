@@ -42,15 +42,16 @@ int main(void)
 			linetoNULL = NULL;
 			cpyargs[i] = strdup(args[i]);
 		}
-		if (_which(&cpyargs) == 0)
-			fork_wait_execve(&cpyargs);
-		else
-			continue;
-		for (i = 0; cpyargs[i]; i++)
+		if (args[0] != NULL)
 		{
+			if (_which(&cpyargs) == 0)
+				fork_wait_execve(&cpyargs);
+		}
+		for (i = 0; cpyargs[i]; i++)
+		{				
 			free(cpyargs[i]);
 			cpyargs[i] = NULL;
-		}
+		}	
 	}
 	free(cpyargs);
 	free(args);
