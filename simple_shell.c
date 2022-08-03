@@ -61,6 +61,6 @@ int main(void)
 	free(args);
 	free(line);
 	if (status == 127)
-		exit(127);
+		exit(status);
 	return (0);
 }
