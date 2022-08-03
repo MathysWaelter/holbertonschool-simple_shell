@@ -29,7 +29,6 @@ int _which(char ***args)
 			{
 				free((*args)[i]);
 				(*args)[i] = strdup(cmdpath);
-				printf("ARG = CMDPATH : %s\n", (*args)[i]);
 				break;
 			}
 		}
