@@ -1,10 +1,8 @@
 #include "simple_shell.h"
 /*
  * printenv - print all environment variables and their content
- *
- * Return: nothing
  */
-void printenv()
+void printenv(void)
 {
 	int i = 0;
 
