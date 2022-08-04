@@ -1,7 +1,7 @@
 #include "simple_shell.h"
 /**
  * free_loop - free the strings of a pointer of strings
- *
+ * @pp: input
  * Return: nothing
  */
 void free_loop(char ***pp)
@@ -16,7 +16,7 @@ void free_loop(char ***pp)
 }
 /**
  * fork_wait_execve - creates a child process, exec a command, then leave
- *
+ * @p: func
  * Return: nothing
  */
 int fork_wait_execve(char ***p)
