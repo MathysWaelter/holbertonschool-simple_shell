@@ -1,8 +1,11 @@
 # Simple Shell
 
-Shell is a UNIX term for the interactive user interface with an operating system. The shell is the layer of programming 🕹
+This project, is our end-of-term project, carried out in groups of two, and we had to do it in just 15 days, we put into practice all our knowledge of the C language and the unix script ✅
 
 ## Description
+
+
+Shell is a UNIX term for the interactive user interface with an operating system. The shell is the layer of programming 🕹
 
 It collects information from you and runs programs based on that information. When a program finishes running, it displays the output of that program.
 
@@ -30,13 +33,41 @@ Shell is an environment where we can run our shell commands, programs and script
 | The Korn Shell (ksh) | /bin/ksh | $ | # |
 | The GNU Bourne-Again Shell (Bash) | /bin/bash | bash-x.xx$ | bash-x.xx# |
 
+## Different Modes
+
+Our Shell works in two modes: 
+* -Interactive Mode 
+* -Non-Interactive Mode
+
+***Interactive mode***
+
+For enter in Shell prompt:
+
+Compile with:
+```
+gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+```
+Run with:
+```
+./hsh
+```
+
+For run with Shell prompt:
+
+Compile with:
+```
+gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+```
+Run with:
+```
+echo "command" | ./hsh
+```
 ## Help
 
 for help type this command in your shell terminal.
 ```
 cat -help
 ```
-
 ## Authors
 
 Contributors names and contact info
