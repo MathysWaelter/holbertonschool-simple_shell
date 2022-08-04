@@ -1,0 +1,48 @@
+.TH man 1 "4 Aout 2022" "0.1" "simple_shell man page"
+
+.SH NAME
+.I simple_shell:
+.br
+- Shell is a UNIX term for the interactive user interface with an operating system. The shell is the layer of programming
+
+.SH SYNOPSIS
+- ./hsh [options] [file]
+
+.SH DESCRIPTION
+Simple_Shell is an sh-compatible command language interpreter that executes
+commands read from the standard input.
+
+.SH Return Value
+
+Always return zero (0), unless specified by an exit code.
+
+.SH PATH
+
+It will look inside al directions in PATH env variable for executable.
+
+.SH
+
+.SH OPTIONS
+.B simple_shell
+Command options will be typed after the main command followed by a space and a
+ '-' symbol.
+
+.SH EXAMPLE
+
+.B [command] [options]
+.br
+.B $ ls -la
+.br
+.B $ pwd
+.br
+.br
+And all unix command
+
+.SH SEE ALSO
+.I access(2), bash (1), chdir(2), execve(2), _exit(2), exit(3), fflush(3), fork(2), free(3), isatty(3), getcwd(3), malloc(3), open(2), read(2), sh(1), signal(2), stat(2), wait(2), write(2)
+
+.SH BUGS
+We couldn't find any, but if you find let us know.
+
+.SH AUTHOR
+Mathys WAELTER, Romain BAYLE
