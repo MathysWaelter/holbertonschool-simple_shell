@@ -1,3 +1,5 @@
+![alt text](https://rushhourtimes.com/wp-content/uploads/2022/04/8347f9bc74b893721854374b8df659b6.png)
+
 # Simple Shell
 
 This project, is our end-of-term project, carried out in groups of two, and we had to do it in just 15 days, we put into practice all our knowledge of the C language and the unix script ✅
