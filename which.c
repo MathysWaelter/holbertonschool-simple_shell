@@ -1,5 +1,11 @@
 #include "simple_shell.h"
 
+/**
+ * _which - shows the full path of (shell) commands.
+ * @args: command lines arguments
+ * Return: Always 0
+ */
+
 int _which(char ***args)
 {
 	char *pathenv = getenv("PATH");
