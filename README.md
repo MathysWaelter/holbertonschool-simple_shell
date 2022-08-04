@@ -70,13 +70,6 @@ for help type this command in your shell terminal.
 ```
 cat -help
 ```
-## Authors
-
-Contributors names and contact info
-
-***-Waelter Mathys*** --> https://www.linkedin.com/in/mathys-waelter-1055631a4/
-
-***-Bayle Romain*** --> https://www.linkedin.com/in/romain-bayle-48a11a243/
 
 ## Version History
 
@@ -95,4 +88,10 @@ Contributors names and contact info
 * 0.5
     * Implement the env built-in, that prints the current environment
 
+## Authors
 
+Contributors names and contact info
+
+***-Waelter Mathys*** --> https://www.linkedin.com/in/mathys-waelter-1055631a4/
+
+***-Bayle Romain*** --> https://www.linkedin.com/in/romain-bayle-48a11a243/
