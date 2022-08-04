@@ -1,5 +1,5 @@
 #include "simple_shell.h"
-/*
+/**
  * printenv - print all environment variables and their content
  */
 void printenv(void)
