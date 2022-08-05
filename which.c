@@ -8,23 +8,20 @@
 
 void _which(char ***args, int *status)
 {
-	char *pathenv = getenv("PATH");
-	char *copyenv;
-	char *cmdpath, *token;
+	char *path = getenv("PATH"), *copyenv, *cmdpath, *token, *envNULL;
 	int i, lenarg, lentok;
-	char *copyenvorNULL;
 
-	for (i = 0; (*args)[i]; i++)
+	for (i = 0; (*args)[i] && path; i++)
 	{
 		if (access((*args)[i], F_OK) == 0)
 			continue;
-		copyenv = strdup(pathenv);
+		copyenv = strdup(path);
 		lenarg = strlen((*args)[i]);
 		cmdpath = strdup((*args)[i]);
-		copyenvorNULL = copyenv;
-		while ((token = strtok(copyenvorNULL, ":")) != NULL)
+		envNULL = copyenv;
+		while ((token = strtok(envNULL, ":")) != NULL)
 		{
-			copyenvorNULL = NULL;
+			envNULL = NULL;
 			lentok = strlen(token);
 			free(cmdpath);
 			cmdpath = calloc((lentok + lenarg + 2), sizeof(char));
@@ -41,7 +38,7 @@ void _which(char ***args, int *status)
 		free(cmdpath);
 		free(copyenv);
 	}
-	if (access((*args)[0], F_OK) != 0 || pathenv == NULL)
+	if (access((*args)[0], F_OK) != 0)
 	{
 		write(STDERR_FILENO, "./hsh: 1: ", 10);
 		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
