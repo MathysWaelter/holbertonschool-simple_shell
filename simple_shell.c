@@ -68,8 +68,7 @@ int main(void)
 			ex = is_exit(&cpyargs);
 			if (is_env(args[0]) && ex != 0)
 			{
-				_which(&cpyargs, &status);
-				if (status == 0)
+				if (_which(cpyargs, &status) == 0)
 					fork_wait_execve(&cpyargs, &status);
 			}
 		}
