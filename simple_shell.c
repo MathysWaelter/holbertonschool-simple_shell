@@ -38,6 +38,14 @@ void fork_wait_execve(char ***p, int *status)
 	}
 }
 /**
+ * SIGINT_handler - do nothing
+ * @signum: signal number
+ */
+void SIGINT_handler(int signum)
+{
+	(void)signum;
+}
+/**
  * main - creates a shell
  *
  * Return: Always 0
@@ -54,6 +62,7 @@ int main(void)
 
 	if (!(cpyargs) | !(args))
 		exit(98);
+	signal(SIGINT, SIGINT_handler);
 	while ((nread = getline(&line, &len, stdin)) != -1)
 	{
 		ex = -1;
