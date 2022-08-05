@@ -17,6 +17,7 @@ void free_loop(char ***pp)
 /**
  * fork_wait_execve - creates a child process, exec a command, then leave
  * @p: func
+ * @status: error status
  * Return: nothing
  */
 void fork_wait_execve(char ***p, int *status)
@@ -49,12 +50,13 @@ int main(void)
 	char **cpyargs = calloc(1000, sizeof(char *));
 	ssize_t nread;
 	char *delim = " \n", *line = NULL, *linetoNULL;
-	int status = 0, ex = -1;
+	int status = 0, ex;
 
 	if (!(cpyargs) | !(args))
 		exit(98);
 	while ((nread = getline(&line, &len, stdin)) != -1)
 	{
+		ex = -1;
 		linetoNULL = line;
 		for (i = 0; (args[i] = strtok(linetoNULL, delim)) != NULL; i++)
 		{
@@ -64,7 +66,7 @@ int main(void)
 		if (args[0] != NULL)
 		{
 			ex = is_exit(&cpyargs);
-			if (is_env(args[0]) && ex == -1)
+			if (is_env(args[0]) && ex != 0)
 			{
 				_which(&cpyargs, &status);
 				if (status == 0)
@@ -72,9 +74,11 @@ int main(void)
 			}
 		}
 		free_loop(&cpyargs);
-		if (status != 0 || ex == 0)
+		if (ex == 0)
 			break;
 	}
+	if (status != 0 && ex == 0)
+		status = 2;
 	free(cpyargs);
 	free(args);
 	free(line);
