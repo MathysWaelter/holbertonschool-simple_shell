@@ -2,7 +2,7 @@
 
 # Simple Shell
 
-This project, is our end-of-term project, carried out in groups of two, and we had to do it in just 15 days, we put into practice all our knowledge of the C language and the unix script ✅
+This project, is our end-of-term project, carried out in groups of two, and we had to do it in just 15 days, we put into practice all our knowledge of the C language and the unix script. ✅
 
 ## Description
 
