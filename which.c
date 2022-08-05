@@ -1,6 +1,12 @@
 #include "simple_shell.h"
+/**
+ * _which - find exec in the path, change strings to get full pathname
+ * @args: pointer of pointer to strings
+ * @status: pointer of status to change if not found
+ * Return: nothing
+ */
 
-int _which(char ***args)
+void _which(char ***args, int *status)
 {
 	char *pathenv = getenv("PATH");
 	char *copyenv;
@@ -40,7 +46,6 @@ int _which(char ***args)
 		write(STDERR_FILENO, "./hsh: 1: ", 10);
 		write(STDERR_FILENO, (*args)[0], strlen((*args)[0]));
 		write(STDERR_FILENO, ": not found\n", 12);
-		return (127);
+		*status  = 127;
 	}
-	return (0);
 }

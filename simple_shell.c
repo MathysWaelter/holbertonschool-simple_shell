@@ -19,9 +19,8 @@ void free_loop(char ***pp)
  *
  * Return: nothing
  */
-int fork_wait_execve(char ***p)
+void fork_wait_execve(char ***p, int *status)
 {
-	int status = 0;
 	pid_t child = 0;
 
 	child = fork();
@@ -34,9 +33,8 @@ int fork_wait_execve(char ***p)
 	}
 	else
 	{
-		wait(&status);
+		wait(&(*status));
 	}
-	return (0);
 }
 /**
  * main - creates a shell
@@ -51,7 +49,7 @@ int main(void)
 	char **cpyargs = calloc(1000, sizeof(char *));
 	ssize_t nread;
 	char *delim = " \n", *line = NULL, *linetoNULL;
-	int status = 0;
+	int status = 0, ex = -1;
 
 	if (!(cpyargs) | !(args))
 		exit(98);
@@ -63,26 +61,22 @@ int main(void)
 			linetoNULL = NULL;
 			cpyargs[i] = strdup(args[i]);
 		}
-		if (strcmp(cpyargs[0], "env") == 0)
-		{
-			printenv();
-			free_loop(&cpyargs);
-			continue;
-		}
 		if (args[0] != NULL)
 		{
-			status = _which(&cpyargs);
-			if (status == 0)
-				status = fork_wait_execve(&cpyargs);
+			ex = is_exit(&cpyargs);
+			if (is_env(args[0]) && ex == -1)
+			{
+				_which(&cpyargs, &status);
+				if (status == 0)
+					fork_wait_execve(&cpyargs, &status);
+			}
 		}
 		free_loop(&cpyargs);
-		if (status != 0)
+		if (status != 0 || ex == 0)
 			break;
 	}
 	free(cpyargs);
 	free(args);
 	free(line);
-	if ((status != 0) && (status != -1))
-		exit(status);
-	return (0);
+	exit(status);
 }

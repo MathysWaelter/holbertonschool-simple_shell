@@ -7,8 +7,10 @@
 #include <sys/wait.h>
 #include <string.h>
 extern char **environ;
-int _which(char ***args);
-int fork_wait_execve(char ***p);
+int is_env(char *arg);
+int is_exit(char ***args);
+void _which(char ***args, int *status);
+void fork_wait_execve(char ***p, int *status);
 void free_loop(char ***pp);
 void printenv(void);
 #endif
